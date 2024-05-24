@@ -115,8 +115,22 @@ class Tree {
     console.log("performing level order using recursion");
     levelOrderRec([this.root], callback);
   }
+
+  inOrder(callback) {
+    const inOrderRec = (node, callback) => {
+      if (node.left) inOrderRec(node.left, callback);
+      callback(node);
+      if (node.right) inOrderRec(node.right, callback);
+    }
+    if (callback) inOrderRec(this.root, callback);
+    else {
+      const array = [];
+      inOrderRec(this.root, (node) => array.push(node.data))
+      return array;
+    }
+  }
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-tree.levelOrder();
+console.log(tree.inOrder());
