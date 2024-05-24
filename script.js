@@ -157,8 +157,28 @@ class Tree {
       return array;
     }
   }
+
+  height(node) {
+    let height = -1;
+    const levelOrderRec = (list) => {
+      if (list.length === 0) return;
+      const children = [];
+      list.forEach((node) => {
+        if (node.left) children.push(node.left);
+        if (node.right) children.push(node.right);
+      });
+      height++;
+      levelOrderRec(children);
+    };
+    levelOrderRec([node]);
+    return height;
+  }
+
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-console.log(tree.postOrder());
+console.log(`height of 9: ${tree.height(tree.find(9))}`);
+console.log(`height of 8: ${tree.height(tree.find(8))}`);
+console.log(`height of 4: ${tree.height(tree.find(4))}`);
+console.log(`height of 7: ${tree.height(tree.find(7))}`);
