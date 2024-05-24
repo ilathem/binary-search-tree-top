@@ -88,9 +88,35 @@ class Tree {
     }
     return null;
   }
+
+  levelOrder(callback = (node) => console.log(node.data)) {
+    const levelOrderIter = (root, callback) => {
+      const queue = [];
+      queue.push(root);
+      while (queue.length > 0) {
+        const nodeToVisit = queue.shift();
+        if (nodeToVisit.left) queue.push(nodeToVisit.left);
+        if (nodeToVisit.right) queue.push(nodeToVisit.right);
+        callback(nodeToVisit);
+      }
+    };
+    const levelOrderRec = (list, callback) => {
+      if (list.length === 0) return;
+      const children = [];
+      list.forEach((node) => {
+        callback(node);
+        if (node.left) children.push(node.left);
+        if (node.right) children.push(node.right);
+      });
+      levelOrderRec(children, callback);
+    };
+    console.log("performing level order using iteration");
+    levelOrderIter(this.root, callback);
+    console.log("performing level order using recursion");
+    levelOrderRec([this.root], callback);
+  }
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-console.log(tree.find(67));
-
+tree.levelOrder();
