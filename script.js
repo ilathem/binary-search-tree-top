@@ -20,10 +20,6 @@ class Node {
     this.left = null;
     this.right = null;
   }
-
-  toString() {
-    return this.data;
-  }
 }
 
 class Tree {
@@ -42,9 +38,25 @@ class Tree {
   }
 
   insert(value) {
-    console.log(this.root);
+    const insertRec = (root, val) => {
+      if (root == null) {
+        root = new Node(value);
+        return root;
+      }
+      if (val < root.data) {
+        root.left = insertRec(root.left, val);
+      } else if (val > root.data) {
+        root.right = insertRec(root.right, val);
+      }
+      return root;
+    }
+    this.root = insertRec(this.root, value);
   }
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
+prettyPrint(tree.root);
 tree.insert(50);
+prettyPrint(tree.root);
+tree.insert(50);
+prettyPrint(tree.root);
