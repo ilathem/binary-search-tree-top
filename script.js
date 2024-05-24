@@ -27,8 +27,6 @@ class Tree {
     const unique = [...new Set(data)]
     const end = unique.length - 1
     const sorted = mergeSort(unique);
-    console.log(sorted)
-    console.log(end)
     this.root = this.buildTree(sorted, 0, end);
   }
 
@@ -56,11 +54,37 @@ class Tree {
     }
     this.root = insertRec(this.root, value);
   }
+  
+  deleteItem(value) {
+    const deleteRec = (root, val) => {
+      if (root === null) return root;
+      if (val < root.data) {
+        root.left = deleteRec(root.left, val);
+      } else if (val > root.data) {
+        root.right = deleteRec(root.right, val);
+      } else {
+        if (root.left === null) return root.right;
+        else if (root.right === null) return root.left;
+        let node = root.right;
+        let minimumValue = node.data;
+        while(node.left !== null) {
+          minimumValue = node.left.data;
+          node = node.left;
+        }
+        root.data = minimumValue;
+        root.right = deleteRec(root.right, minimumValue);
+      }
+      return root;
+    }
+    this.root = deleteRec(this.root, value);
+  }
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-tree.insert(50);
+tree.deleteItem(8)
 prettyPrint(tree.root);
-tree.insert(50);
+tree.deleteItem(3)
+prettyPrint(tree.root);
+tree.deleteItem(5)
 prettyPrint(tree.root);
