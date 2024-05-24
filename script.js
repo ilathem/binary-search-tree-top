@@ -13,7 +13,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-
 class Node {
   constructor(data) {
     this.data = data;
@@ -24,8 +23,8 @@ class Node {
 
 class Tree {
   constructor(data = []) {
-    const unique = [...new Set(data)]
-    const end = unique.length - 1
+    const unique = [...new Set(data)];
+    const end = unique.length - 1;
     const sorted = mergeSort(unique);
     this.root = this.buildTree(sorted, 0, end);
   }
@@ -51,10 +50,10 @@ class Tree {
         root.right = insertRec(root.right, val);
       }
       return root;
-    }
+    };
     this.root = insertRec(this.root, value);
   }
-  
+
   deleteItem(value) {
     const deleteRec = (root, val) => {
       if (root === null) return root;
@@ -67,7 +66,7 @@ class Tree {
         else if (root.right === null) return root.left;
         let node = root.right;
         let minimumValue = node.data;
-        while(node.left !== null) {
+        while (node.left !== null) {
           minimumValue = node.left.data;
           node = node.left;
         }
@@ -75,16 +74,23 @@ class Tree {
         root.right = deleteRec(root.right, minimumValue);
       }
       return root;
-    }
+    };
     this.root = deleteRec(this.root, value);
+  }
+
+  find(value) {
+    if (value === this.root.data) return this.root;
+    let node = this.root;
+    while (node) {
+      if (value < node.data) node = node.left;
+      if (value > node.data) node = node.right;
+      if (value === node.data) return node;
+    }
+    return null;
   }
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-tree.deleteItem(8)
-prettyPrint(tree.root);
-tree.deleteItem(3)
-prettyPrint(tree.root);
-tree.deleteItem(5)
-prettyPrint(tree.root);
+console.log(tree.find(67));
+
