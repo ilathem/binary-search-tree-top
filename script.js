@@ -174,11 +174,30 @@ class Tree {
     return height;
   }
 
+  depth(target) {
+    let depth = 0;
+    let nodeFound = false;
+    const levelOrderRec = (list) => {
+      if (list.length === 0) return;
+      const children = [];
+      list.forEach((node) => {
+        if (node.data === target.data) nodeFound = true;
+        if (node.left && !nodeFound) children.push(node.left);
+        if (node.right && !nodeFound) children.push(node.right);
+      });
+      if (nodeFound) return;
+      depth++;
+      levelOrderRec(children);
+    };
+    levelOrderRec([this.root]);
+    return depth;
+  }
+
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-console.log(`height of 9: ${tree.height(tree.find(9))}`);
-console.log(`height of 8: ${tree.height(tree.find(8))}`);
-console.log(`height of 4: ${tree.height(tree.find(4))}`);
-console.log(`height of 7: ${tree.height(tree.find(7))}`);
+console.log(`depth of 9: ${tree.depth(tree.find(9))}`);
+console.log(`depth of 8: ${tree.depth(tree.find(8))}`);
+console.log(`depth of 4: ${tree.depth(tree.find(4))}`);
+console.log(`depth of 7: ${tree.depth(tree.find(7))}`);
