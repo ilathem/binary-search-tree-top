@@ -24,8 +24,12 @@ class Node {
 
 class Tree {
   constructor(data = []) {
-    const end = data.length - 1
-    this.root = this.buildTree(mergeSort(data), 0, end);
+    const unique = [...new Set(data)]
+    const end = unique.length - 1
+    const sorted = mergeSort(unique);
+    console.log(sorted)
+    console.log(end)
+    this.root = this.buildTree(sorted, 0, end);
   }
 
   buildTree(data, start, end) {
