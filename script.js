@@ -129,8 +129,22 @@ class Tree {
       return array;
     }
   }
+
+  preOrder(callback) {
+    const preOrderRec = (node, callback) => {
+      callback(node);
+      if (node.left) preOrderRec(node.left, callback);
+      if (node.right) preOrderRec(node.right, callback);
+    }
+    if (callback) preOrderRec(this.root, callback);
+    else {
+      const array = [];
+      preOrderRec(this.root, (node) => array.push(node.data))
+      return array;
+    }
+  }
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-console.log(tree.inOrder());
+console.log(tree.preOrder());
