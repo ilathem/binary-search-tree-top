@@ -143,8 +143,22 @@ class Tree {
       return array;
     }
   }
+
+  postOrder(callback) {
+    const postOrderRec = (node, callback) => {
+      if (node.left) postOrderRec(node.left, callback);
+      if (node.right) postOrderRec(node.right, callback);
+      callback(node);
+    }
+    if (callback) postOrderRec(this.root, callback);
+    else {
+      const array = [];
+      postOrderRec(this.root, (node) => array.push(node.data))
+      return array;
+    }
+  }
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-console.log(tree.preOrder());
+console.log(tree.postOrder());
