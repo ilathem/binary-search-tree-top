@@ -8,6 +8,10 @@ class Node {
 
 class Tree {
   constructor(data = []) {
-    this.root = buildTree(data);
+    this.root = this.buildTree(data);
+  }
+  
+  buildTree(data = []) {
+
   }
 }
