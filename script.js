@@ -110,10 +110,8 @@ class Tree {
       });
       levelOrderRec(children, callback);
     };
-    console.log("performing level order using iteration");
     levelOrderIter(this.root, callback);
-    console.log("performing level order using recursion");
-    levelOrderRec([this.root], callback);
+    // levelOrderRec([this.root], callback);
   }
 
   inOrder(callback) {
@@ -200,19 +198,16 @@ class Tree {
       if (node.left !== null) leftSubTreeHeight = this.height(node.left);
       let rightSubTreeHeight = 0;
       if (node.right !== null) rightSubTreeHeight = this.height(node.right);
-      if (node.data === 8)
-        console.log(
-          `${node.data}'s left subtree is ${leftSubTreeHeight} and it's right subtree is ${rightSubTreeHeight} and their absolute difference is ${Math.abs(leftSubTreeHeight - rightSubTreeHeight)}`,
-        );
-      if (Math.abs(leftSubTreeHeight - rightSubTreeHeight) > 1) isBalanced = false;
+      if (Math.abs(leftSubTreeHeight - rightSubTreeHeight) > 1)
+        isBalanced = false;
     });
     return isBalanced;
   }
 
   rebalance() {
-    console.log('\nRebalancing tree...\n');
+    console.log("\nRebalancing tree...\n");
     const treeArray = [];
-    this.preOrder(node => treeArray.push(node.data));
+    this.preOrder((node) => treeArray.push(node.data));
     const unique = [...new Set(treeArray)];
     const end = unique.length - 1;
     const sorted = mergeSort(unique);
@@ -220,15 +215,48 @@ class Tree {
   }
 }
 
-const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-prettyPrint(tree.root);
-console.log(`Tree ${tree.isBalanced() ? "is" : "is not"} balanced`);
-tree.insert(6346);
-tree.insert(6347);
-prettyPrint(tree.root);
-console.log(`Tree ${tree.isBalanced() ? "is" : "is not"} balanced`);
-tree.rebalance();
-prettyPrint(tree.root);
-console.log(`Tree ${tree.isBalanced() ? "is" : "is not"} balanced`);
+const getArrayRandom = (length) => {
+  let array = new Array();
+  for (let i = 0; i < length; i++) {
+    array[i] = Math.floor(Math.random() * 100);
+  }
+  return array;
+};
 
+const driverScript = () => {
+  const tree = new Tree(getArrayRandom(16));
+  console.log(`Tree ${tree.isBalanced() ? "is" : "is not"} balanced`);
+  prettyPrint(tree.root);
+  console.log("\nPrinting in level order");
+  let levelOrder = [];
+  tree.levelOrder((node) => levelOrder.push(node.data));
+  console.log(levelOrder);
+  console.log("\nPrinting in pre order");
+  console.log(tree.preOrder());
+  console.log("\nPrinting in post order");
+  console.log(tree.postOrder());
+  console.log("\nPrinting in order");
+  console.log(tree.inOrder());
+  for (let i = 0; i < 6; i++) {
+    const randomNum = Math.floor(Math.random() * 100) + 100;
+    console.log(`Adding ${randomNum}`);
+    tree.insert(randomNum);
+  }
+  prettyPrint(tree.root);
+  console.log(`Tree ${tree.isBalanced() ? "is" : "is not"} balanced`);
+  tree.rebalance();
+  console.log(`Tree ${tree.isBalanced() ? "is" : "is not"} balanced`);
+  levelOrder = [];
+  tree.levelOrder((node) => levelOrder.push(node.data));
+  console.log(levelOrder);
+  console.log("\nPrinting in pre order");
+  console.log(tree.preOrder());
+  console.log("\nPrinting in post order");
+  console.log(tree.postOrder());
+  console.log("\nPrinting in order");
+  console.log(tree.inOrder());
+  console.log('\n\nFinal Tree:');
+  prettyPrint(tree.root);
+};
 
+driverScript();
