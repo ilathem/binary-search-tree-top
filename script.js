@@ -121,11 +121,11 @@ class Tree {
       if (node.left) inOrderRec(node.left, callback);
       callback(node);
       if (node.right) inOrderRec(node.right, callback);
-    }
+    };
     if (callback) inOrderRec(this.root, callback);
     else {
       const array = [];
-      inOrderRec(this.root, (node) => array.push(node.data))
+      inOrderRec(this.root, (node) => array.push(node.data));
       return array;
     }
   }
@@ -135,11 +135,11 @@ class Tree {
       callback(node);
       if (node.left) preOrderRec(node.left, callback);
       if (node.right) preOrderRec(node.right, callback);
-    }
+    };
     if (callback) preOrderRec(this.root, callback);
     else {
       const array = [];
-      preOrderRec(this.root, (node) => array.push(node.data))
+      preOrderRec(this.root, (node) => array.push(node.data));
       return array;
     }
   }
@@ -149,11 +149,11 @@ class Tree {
       if (node.left) postOrderRec(node.left, callback);
       if (node.right) postOrderRec(node.right, callback);
       callback(node);
-    }
+    };
     if (callback) postOrderRec(this.root, callback);
     else {
       const array = [];
-      postOrderRec(this.root, (node) => array.push(node.data))
+      postOrderRec(this.root, (node) => array.push(node.data));
       return array;
     }
   }
@@ -193,11 +193,28 @@ class Tree {
     return depth;
   }
 
+  isBalanced() {
+    let isBalanced = true;
+    this.preOrder((node) => {
+      let leftSubTreeHeight = 0;
+      if (node.left !== null) leftSubTreeHeight = this.height(node.left);
+      let rightSubTreeHeight = 0;
+      if (node.right !== null) rightSubTreeHeight = this.height(node.right);
+      if (node.data === 8)
+        console.log(
+          `${node.data}'s left subtree is ${leftSubTreeHeight} and it's right subtree is ${rightSubTreeHeight} and their absolute difference is ${Math.abs(leftSubTreeHeight - rightSubTreeHeight)}`,
+        );
+      if (Math.abs(leftSubTreeHeight - rightSubTreeHeight) > 1) isBalanced = false;
+    });
+    return isBalanced;
+  }
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
 prettyPrint(tree.root);
-console.log(`depth of 9: ${tree.depth(tree.find(9))}`);
-console.log(`depth of 8: ${tree.depth(tree.find(8))}`);
-console.log(`depth of 4: ${tree.depth(tree.find(4))}`);
-console.log(`depth of 7: ${tree.depth(tree.find(7))}`);
+console.log(`Tree ${tree.isBalanced() ? "is" : "is not"} balanced`);
+tree.insert(6346);
+tree.insert(6347);
+prettyPrint(tree.root);
+console.log(`Tree ${tree.isBalanced() ? "is" : "is not"} balanced`);
+
