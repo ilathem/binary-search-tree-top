@@ -208,6 +208,16 @@ class Tree {
     });
     return isBalanced;
   }
+
+  rebalance() {
+    console.log('\nRebalancing tree...\n');
+    const treeArray = [];
+    this.preOrder(node => treeArray.push(node.data));
+    const unique = [...new Set(treeArray)];
+    const end = unique.length - 1;
+    const sorted = mergeSort(unique);
+    this.root = this.buildTree(sorted, 0, end);
+  }
 }
 
 const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
@@ -217,4 +227,8 @@ tree.insert(6346);
 tree.insert(6347);
 prettyPrint(tree.root);
 console.log(`Tree ${tree.isBalanced() ? "is" : "is not"} balanced`);
+tree.rebalance();
+prettyPrint(tree.root);
+console.log(`Tree ${tree.isBalanced() ? "is" : "is not"} balanced`);
+
 
